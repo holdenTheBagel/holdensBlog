@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'ckeditor',
-    #'ckeditor_uploader'
+    'ckeditor',
+    'ckeditor_uploader',
     #Created Apps
     'holdensblog_mainApp',
     'createUser',
@@ -140,7 +140,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor"
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_RESTRICT_BY_USER = True
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Advanced',
+        'width': 758,
+        'height': 300,
+    },
+}
 
 STATICFILES_DIRS = (
     #BASE_DIR / 'static'
