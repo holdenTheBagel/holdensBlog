@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if category_posts %}
+		
+	<h1 style="text-align:center;">{{ cats }}</h1>
+
+	{% for post in category_posts %}
+	<div class="card text-center">
+	  <div class="card-header"style="background-color: #212529;color: #007bff;">
+	    {{ post.title }} | <a style="color: #007bff;"href="{% url 'profile_page' post.author.profile.id %}">{{ post.author }}</a>
+	  </div>
+	  <div class="card-body">
+		<h5 class="card-title">{{ post.snippet }}</h5>
+		{% if post.header_image %} 
+			<a href="{% url 'details' post.pk %}"><img style="max-width: 400px;max-height: 400px;"src="{{ post.header_image.url }}"></a><br><br>
+		{% else %}
+	 		<p class="card-text">{{ post.body|safe|slice:20 }}...</p>
+	 		<a href="{% url 'details' post.pk %}" class="btn btn-primary">Details</a>
+	 	{% endif %}
+		
+		{% if user.is_authenticated %}
+			{% if user.id == post.author.id %}
+				<a href="{% url 'update_post' post.pk %}" class="btn btn-warning">Edit</a>
+				<a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
+			{% endif %}
+		{% endif %}
+	  </div>
+	  <div class="card-footer text-muted"style="background-color: #212529;color: #007bff;">
+	    {{ post.post_date }}
+	  </div>
+	</div>
+	<br>
+	{% endfor%}
+		
+	
+
+{% else %}
+
+<h1>Sorry...this page doesn't exist  :(</h1>
+
+{% endif %}
+
+{% endblock %}
+
+
+<!--<ul>
+	{% for post in category_posts %}
+		<li><a href="{% url 'details' post.pk %}">{{ post.title }}</a> - 
+			{{ post.author.first_name }}
+			{{ post.author.last_name }} 
+		</li>
+	{% endfor %}	
+	</ul> -->

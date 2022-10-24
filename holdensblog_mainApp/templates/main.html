@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>holdensBlog</title>
+
+	<style type="text/css">
+
+		.bvox {
+			display:flex;
+  			flex-wrap:wrap;	
+  			
+		}
+		
+		.creator-message {
+			text-align: center;
+		}
+
+		.list {
+			color: #007bff;
+			text-align: center;
+			display: inline-block;
+			border: 2px solid #212529;
+			max-width: 500px;
+		}
+
+		.discord {
+			text-align: center;
+			display: block;
+			width: 50%;
+			margin-right: 100px;
+			border: 2px solid #212529;
+			max-width: 500px;
+		}
+
+		.latest-project {
+			text-align: center;
+			width: 50%;
+			border: 2px solid #212529;
+			max-width: 500px;
+		}
+	</style>
+</head>
+	<body>
+		<div class="creator-message">
+			<h1>Welcome to holdensBlog</h1>
+			<br>
+			<h5>A message from the creator...</h5>
+			<p>I made this website with the intention of it becoming my portfolio, where I will provide updates to all my future projects and endeavors.</p> <p>I soon realized posting everything with no feedback would be boring, lonely, and a bit counterproductive to my learning process.</p>
+			<p>I invite whoever to make an account with <strong>holdensBlog</strong> and document their career/experience in the technical field along with me. </p>
+			<br>
+			<div class="list">
+				<h6>Some things I'd like to note...</h6>
+				<small>
+					<ul>
+						<li>At the time of this writing this website is pretty bare bones and janky. I will be improving the styling and adding more features with time, but I've got the main functionalities I wanted and am ready to begin other projects.</li>
+						<br>
+						<li>If you have a job/business opportunity to extend, any suggestions for features/improvements to the site, or would like to contribute to the development of the website, please email me at <u>caseholden@gmail.com</u></li>
+					</ul>
+				</small>
+			</div>
+		</div>
+			<br><br>
+		<div class="bvox">
+			<div class="discord">
+				<h3>Join my Discord</h3><br>
+				<a href="https://discord.gg/xggypKXVxP"><img src="https://th.bing.com/th/id/R.0fb9ef92dad243278fa9d353191726da?rik=6HEpHl4HEnGmJg&pid=ImgRaw&r=0" style="max-width: 300px;"></a><br><br>
+			</div>
+			<div class="latest-project">
+				<h3>Check out my latest project</h3>
+			</div>
+		</div>
+		<br><br><br>
+	</body>
+</html>
+{% endblock %}

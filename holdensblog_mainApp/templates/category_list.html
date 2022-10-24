@@ -1,0 +1,22 @@
+
+<!-- Use 'object' in place of 'post' on this page. -->
+{% extends 'base.html' %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+
+<div class="list-group">
+	<h1 style="text-align:center;">Category List</h1>
+  {% for item in cat_menu_list %}
+  	<a href="{% url 'category' item %}" class="list-group-item list-group-item-action"style="background-color: #212529;color: #007bff;">{{ item }}</a>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+
+
+
+<!--<h1 style="text-align:center;">Category List</h1>
+{% for item in cat_menu_list %}
+<h4><a class="dropdown-item" href="{% url 'category' item %}">{{ item }}</a></h4>
+{% endfor %} -->

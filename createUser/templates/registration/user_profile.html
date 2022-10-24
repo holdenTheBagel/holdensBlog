@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>holdensBlog</title>
+</head>
+	<body>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+		<h1>Profile</h1>
+
+		
+
+		<div class="card border-dark bg-success text-light mb-3" style="width: device-width">
+  <div class="row g-0">
+    <div class="col-md-4">
+{% if page_user.profile_pic %}
+
+      <img src="{{ page_user.profile_pic.url }}" class="img-fluid rounded-start" width="400" height="400">
+
+{% else %}
+
+			<img src="{% static 'theBlog/images/default.jpg' %}" class="img-fluid rounded-start" width="200" height="200">
+
+{% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ page_user }}</h5>
+        <h7>{{ page_user.user.first_name }} {{ page_user.user.last_name }}</h7><br><br>
+        <p class="card-text">{{ page_user.user.profile.bio }}</p>
+
+
+        <p class="small text-muted">
+
+        	{% if page_user.user.profile.twitter_url %}
+        		<a href="{{ object.author.profile.twitter_url }}"><img src="https://th.bing.com/th/id/R.b16ed79cd358acd320fc5a375636017b?rik=LgCkiaIMGJZAJg&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftwitter-logo-png-twitter-logo-png-1250.png&ehk=OJFl4o7Li%2fDJFKK90hm9lxGodjJ9zz9k%2bZx6JtXK7vo%3d&risl=&pid=ImgRaw&r=0"style="max-width: 25px;"></a>
+        	{% endif %}
+
+        	{% if page_user.user.profile.linkedIn_url %}
+        		<a href="{{ object.author.profile.linkedIn_url }}"><img src="https://th.bing.com/th/id/R.0a7f520070a64f2f0c11a8b1afc6eaa4?rik=dIqxLgIFb3LUUQ&pid=ImgRaw&r=0"style="max-width: 25px;"></a>
+        	{% endif %}
+
+        	{% if page_user.user.profile.github_url %}
+        		<a href="{{ object.author.profile.github_url }}"><img src="https://pngimg.com/uploads/github/github_PNG40.png"style="max-width: 25px;"></a>
+        	{% endif %}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+		
+	{{ user_posts }}
+	
+	
+	{% for post in page_user.user.object_list %}
+			<h1>post</h1>
+		<li><a href="{% url 'details' post.pk %}">{{ post.title }}</a> - 
+			{{ post.author.first_name }}
+			{{ post.author.last_name }} -
+			<a href="{% url 'category' post.category %}">{{ post.category }}</a><br>
+			{{ post.snippet }}<br>
+	{% endfor %}
+
+{% endblock %}
+	</body>
+</html>

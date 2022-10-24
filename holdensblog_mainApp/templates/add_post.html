@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}New Post{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+{% if user.is_authenticated %}
+	<h1>Make a Post</h1><br>
+	<div>
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.media }}
+			{{ form.as_p }}
+			<button class="btn btn-warning">Post</button>
+	</div>
+
+	<script>
+		var name = "{{ user.id }}";
+		document.getElementById("currentUser").value = name;
+	</script>
+
+{% else %}
+
+<h1>Login to add/edit posts</h1>
+
+{% endif %}
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,175 @@
+
+<!-- Use 'object' in place of 'post' on this page. -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ object.title }}-details{% endblock %}
+	{% block content %}
+
+<h1>{{ object.title }}</h1>
+<h5>Category:<a href="{% url 'category' object.category %}"> {{ object.category }}</a></h5>
+<small>By: {{ object.author.first_name }} {{ object.author.last_name }} <br> {{ object.post_date }}</small><br/>
+<hr>
+<br/>
+
+{% if object.header_image %} 
+<img style="max-width: 400px;max-height: 400px;"src="{{ object.header_image.url }}">
+{% endif %}
+<br><br>
+{{ object.body|safe }}
+<br>
+
+<form action="{% url 'like_post' object.pk %}" method="POST">
+	{% csrf_token %}
+{% if user.is_authenticated %}
+
+	<a href="{% url 'add_comment' object.pk %}"class="btn btn-primary btn-sm">Comment</a>
+
+	{% if liked %}
+		<button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-danger btn-sm">Unlike</button>
+	{% else %}  
+		<button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-primary btn-sm">Like</button>
+	{% endif %}	
+
+	{% if total_likes == 1 %}
+		<small>{{ total_likes }} Like</small>
+	{% else %}
+		<small>{{ total_likes }} Likes</small>
+	{% endif %}
+
+{% else %}
+	<small>Login to like posts</small>
+{% endif %}
+</form>
+
+<br>
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+{% if user.is_authenticated %}
+	{% if user.id == object.author.id %}
+		<a href="{% url 'update_post' object.pk %}" class="btn btn-info">Edit</a>
+		<a href="{% url 'delete_post' object.pk %}" class="btn btn-danger">Delete</a>
+	{% endif %}
+{% endif %}
+<br><br>
+
+
+<div class="card border-dark bg-success text-light mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+{% if object.author.profile.profile_pic %}
+
+      <img src="{{ object.author.profile.profile_pic.url }}" class="img-fluid rounded-start" style="max-width: 170px;max-height: 170px;">
+
+{% else %}
+
+			<img src="{% static 'theBlog/images/default.jpg' %}"class="img-fluid rounded-start" >
+
+{% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><a style="color: white;"href="{% url 'profile_page' object.author.profile.id %}">{{ object.author }}</a></h5>
+        <h7>{{ object.author.first_name }} {{ object.author.last_name }}</h7><br><br>
+        <p class="card-text">{{ object.author.profile.bio }}</p>
+
+
+        <p class="small text-muted">
+
+        	{% if object.author.profile.twitter_url %}
+        		<a href="{{ object.author.profile.twitter_url }}"><img src="https://th.bing.com/th/id/R.b16ed79cd358acd320fc5a375636017b?rik=LgCkiaIMGJZAJg&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftwitter-logo-png-twitter-logo-png-1250.png&ehk=OJFl4o7Li%2fDJFKK90hm9lxGodjJ9zz9k%2bZx6JtXK7vo%3d&risl=&pid=ImgRaw&r=0"style="max-width: 25px;"></a>
+        	{% endif %}
+
+        	{% if object.author.profile.linkedIn_url %}
+        		<a href="{{ object.author.profile.linkedIn_url }}"><img src="https://th.bing.com/th/id/R.0a7f520070a64f2f0c11a8b1afc6eaa4?rik=dIqxLgIFb3LUUQ&pid=ImgRaw&r=0"style="max-width: 25px;"></a>
+        	{% endif %}
+
+        	{% if object.author.profile.github_url %}
+        		<a href="{{ object.author.profile.github_url }}"><img src="https://pngimg.com/uploads/github/github_PNG40.png"style="max-width: 25px;"></a>
+        	{% endif %}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="gradient-custom">
+  <div class="container my-5 py-5">
+    <div class="row d-flex justify-content-left">
+      <div class="col-md-12 col-lg-10 col-xl-8">
+        <div class="card">
+          <div class="card-body p-4">
+            <h3 class="text-center mb-4 pb-2">Comments</h3>
+					{% if not object.comments.all %}
+						<h5>No Comments :/</h5>
+					{% else %}
+
+            {% for comment in object.comments.all %}
+            	<hr>
+	            <div class="row">
+	              <div class="col">
+	                <div class="d-flex flex-start">
+	                  {% if comment.name.profile.profile_pic %}
+	                  	<div style="padding: 8px;">
+      									<img src="{{ comment.name.profile.profile_pic.url }}" class="rounded-circle shadow-1-strong me-3" width="65"height="65">
+      								</div>
+										{% else %}
+											<div style="padding: 8px;">
+												<img src="{% static 'theBlog/images/default.jpg' %}"class="rounded-circle shadow-1-strong me-3" width="65" height="65" >
+											</div>
+										{% endif %}
+	                  <div class="flex-grow-1 flex-shrink-1">
+	                    <div>
+	                      <div class="d-flex justify-content-between align-items-center">
+	                      	<p class="mb-1">
+		                      	{% if comment.name.profile.id %}
+															<strong><a style="color:black;"href="{% url 'profile_page' comment.name.profile.id %}">           {{ comment.name }}</a></strong>
+														{% else %}
+															<strong>{{ comment.name }}</strong>
+														{% endif %}
+														<span class="small">- {{ comment.date_added }}</span>
+													</p>
+	                      </div>
+	                      <p class="small mb-0">
+	                        {{ comment.body }}
+	                      </p>
+	                    </div>    
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+						{% endfor %}
+					{% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}
+
+
+<!-- <h2>Comments</h2>
+
+{% if not object.comments.all %}
+	<h5>No Comments :/</h5>
+{% else %}
+	{% for comment in object.comments.all %}
+		<strong>
+			{% if comment.name.profile.id %}
+				<a style="color:black;"href="{% url 'profile_page' comment.name.profile.id %}">{{ comment.name }}</a>
+			{% else %}
+				{{ comment.name }}
+			{% endif %}
+			 - {{ comment.date_added }}</strong><br>
+			
+		{{ comment.body }}<br>
+	{% endfor %}
+{% endif %}
+
+
+-->

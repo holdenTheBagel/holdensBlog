@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Delete Post{% endblock %}
+	{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	{% if user.is_authenticated %}
+		{% if user.id == object.author.id %}
+			<h1>Delete Post</h1><br>
+			<h3>Delete: {{ object.title }}</h3>
+			<p> {{ object.body|safe }} </p>
+			<div class="mb-3">
+				<form method="POST">
+					{% csrf_token %}
+					
+					<button class="btn btn-warning">Delete</button>
+			</div>
+		{% endif %}
+	{% else %}
+
+		<h1>Login to add/edit posts</h1>
+	{% endif %}
+
+
+</body>
+</html>
+
+{% endblock %}
